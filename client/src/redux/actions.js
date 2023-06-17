@@ -2,6 +2,12 @@ import axios from "axios";
 export const GET_COUNTRIES = "GET_COUNTRIES";
 export const GET_COUNTRIES_NAME = "GET_COUNTRIES_NAME";
 export const GET_DETAIL = "GET_DETAIL";
+export const POST_ACTIVITY = "POST_ACTIViTY";
+export const GET_ACTIVITIES = "GET_ACTIVITIES";
+export const BY_ORDER = "BY_ORDER";
+export const BY_POPULATION = "BY_POPULATION";
+export const BY_CONTINENT = "BY_CONTINENT";
+export const BY_ACTIVITY = "BY_ACTIVITY";
 
 const URL = "http://localhost:3001/";
 
@@ -40,5 +46,50 @@ export function getDetail(id) {
       type: "GET_DETAIL",
       payload: data,
     });
+  };
+}
+export const addActivity = (dataAct) => {
+  return function (dispatch) {
+    return axios.post(`${URL}}/activity`, dataAct).then((res) => {
+      dispatch({ type: "POST_ACTIVITY", payload: res.data });
+    });
+  };
+};
+
+export function getActivities() {
+  return async function (dispatch) {
+    var { data } = await axios.get(`${URL}}/activity/`);
+
+    dispatch({
+      type: "GET_ACTIVITIES",
+      payload: data,
+    });
+  };
+}
+
+export function byOrder(payload) {
+  return {
+    type: BY_ORDER,
+    payload,
+  };
+}
+
+export function byPopulation(payload) {
+  return {
+    type: BY_POPULATION,
+    payload,
+  };
+}
+
+export function byContinent(payload) {
+  return {
+    type: BY_CONTINENT,
+    payload,
+  };
+}
+export function byActivity(payload) {
+  return {
+    type: BY_ACTIVITY,
+    payload,
   };
 }

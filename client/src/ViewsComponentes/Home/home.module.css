@@ -13,13 +13,16 @@
 }
 
 .paginado {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 30px;
 }
 
 .paginado > .buttonPaginado {
   margin: 1px;
   color: rgba(255, 255, 255, 0.62);
-  background-color: #1d2b3a;
+  background-color: #f076de;
   border-radius: 5px;
   padding: 10px;
   cursor: pointer;
@@ -28,7 +31,7 @@
 .unButton {
   margin: 1px;
   color: rgba(255, 255, 255, 0.551);
-  background-color: #06376c;
+  background-color: #f7aae6;
   border-radius: 5px;
   padding: 10px;
   cursor: pointer;

@@ -12,7 +12,7 @@ function Navbar() {
   function handleInputChange(e) {
     e.preventDefault();
     setName(e.target.value);
-    console.log(name);
+    // console.log(name);
   }
 
   function handleSubmit(e) {
@@ -33,9 +33,6 @@ function Navbar() {
       <button className="btn" type="submit" onClick={handleSubmit}>
         Search
       </button>
-      {/* <Link to="/home">
-        <button>Home</button>
-      </Link> */}
     </div>
   );
 }
