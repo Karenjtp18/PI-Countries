@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import Navbar from "../../Componentes/NavBar/navbar";
 import Cards from "../../Componentes/Cards/cards";
 import style from "./home.module.css";
@@ -8,13 +9,15 @@ import {
   byContinent,
   byOrder,
   byPopulation,
+  byActivity,
 } from "../../redux/actions";
 
 const pageSize = 10;
 
 function Home() {
   const dispatch = useDispatch();
-  const countries = useSelector((state) => state.countries);
+  const { countries } = useSelector((state) => state);
+  console.log(countries);
 
   const [loading, setLoading] = useState(true);
 
@@ -60,9 +63,28 @@ function Home() {
     setOrder(e.target.value);
   }
 
+  function handlerClick(e) {
+    e.preventDefault();
+    dispatch(getCountries());
+  }
+
+  function handleActivity(e) {
+    e.preventDefault();
+    dispatch(byActivity(e.target.value));
+    setOrder(e.target.value);
+  }
+
   return (
     <div>
       <Navbar></Navbar>
+      <Link to="/form">
+        {" "}
+        <button className="cAct">Create activity!</button>{" "}
+      </Link>
+
+      <button className="containerfilters" onClick={handlerClick}>
+        RESET
+      </button>
 
       {loading ? (
         <div>
@@ -132,6 +154,19 @@ function Home() {
                     Min population
                   </option>
                 </select>
+
+                <div className="filter">
+                  <select onChange={handleActivity}>
+                    <option value="All">All activities</option>
+                    {countries.map((country) =>
+                      country.activities.map((activity) => (
+                        <option key={activity.name} value={activity.name}>
+                          {activity.name}
+                        </option>
+                      ))
+                    )}
+                  </select>
+                </div>
               </div>
             </div>
           </div>

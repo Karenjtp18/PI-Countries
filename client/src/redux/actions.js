@@ -3,7 +3,7 @@ export const GET_COUNTRIES = "GET_COUNTRIES";
 export const GET_COUNTRIES_NAME = "GET_COUNTRIES_NAME";
 export const GET_DETAIL = "GET_DETAIL";
 export const POST_ACTIVITY = "POST_ACTIViTY";
-export const GET_ACTIVITIES = "GET_ACTIVITIES";
+export const ACTIVITIES = "ACTIVITIES";
 export const BY_ORDER = "BY_ORDER";
 export const BY_POPULATION = "BY_POPULATION";
 export const BY_CONTINENT = "BY_CONTINENT";
@@ -48,22 +48,29 @@ export function getDetail(id) {
     });
   };
 }
-export const addActivity = (dataAct) => {
-  return function (dispatch) {
-    return axios.post(`${URL}}/activity`, dataAct).then((res) => {
-      dispatch({ type: "POST_ACTIVITY", payload: res.data });
+export function postActivity(payload) {
+  //payload es el objeto que me llega por el formulario del front
+  return async function (dispatch) {
+    const { data } = await axios.post(`${URL}activities`, payload);
+    // console.log(response);
+    return dispatch({
+      type: POST_ACTIVITY,
+      payload: data,
     });
   };
-};
+}
 
 export function getActivities() {
   return async function (dispatch) {
-    var { data } = await axios.get(`${URL}}/activity/`);
-
-    dispatch({
-      type: "GET_ACTIVITIES",
-      payload: data,
-    });
+    try {
+      const { data } = await axios.get(`${URL}activities`);
+      return dispatch({
+        type: ACTIVITIES,
+        payload: data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 }
 
@@ -87,9 +94,16 @@ export function byContinent(payload) {
     payload,
   };
 }
-export function byActivity(payload) {
-  return {
-    type: BY_ACTIVITY,
-    payload,
+export function byActivity() {
+  return async function (dispatch) {
+    try {
+      const res = await axios.get(`${URL}/activities`);
+      return dispatch({
+        type: BY_ACTIVITY,
+        payload: res.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 }

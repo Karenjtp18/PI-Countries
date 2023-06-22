@@ -16,6 +16,7 @@ const getCountryById = async (req, res) => {
   let countries = await getAllCountries();
   if (id) {
     let country = countries.filter((fl) => fl.id === id);
+    console.log(country.activities);
     country.length
       ? res.status(200).json(country)
       : res.status(404).send("No se ha encontrado");

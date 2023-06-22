@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require("uuid");
 
 const addActivity = async (req, res) => {
   try {
-    const { name, difficulty, duration, season, cId } = req.body;
+    const { name, difficulty, duration, season, countries } = req.body;
     console.log("will add activity", req.body);
 
     const validateActivity = await Activity.findOne({
@@ -12,12 +12,12 @@ const addActivity = async (req, res) => {
       },
     });
 
-    if (!name || !difficulty || !duration || !season || !cId) {
-      res.status(404).json("Porfavor complete todos los campos.");
+    if (!name || !difficulty || !duration || !season || !countries) {
+      return res.status(404).json("Porfavor complete todos los campos.");
     }
 
     if (validateActivity) {
-      res.status(404).json("Esta actividad ya exite.");
+      return res.status(404).json("Esta actividad ya exite.");
     } else {
       const id = uuidv4();
       const newActivity = await Activity.create({
@@ -28,8 +28,12 @@ const addActivity = async (req, res) => {
         season,
       });
 
-      for (const countryId of cId) {
-        await newActivity.addCountry(countryId);
+      if (Array.isArray(countries)) {
+        for (const countryId of countries) {
+          await newActivity.addCountry(countryId);
+        }
+      } else {
+        await newActivity.addCountry(countries);
       }
 
       res.status(200).send("OK");

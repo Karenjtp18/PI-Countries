@@ -32,6 +32,23 @@ function Detail() {
           <h1>Subregion: {countryDetail[0]?.subregion}</h1>
           <h1>Area: {countryDetail[0]?.area}</h1>
           <h1>Poblacion: {countryDetail[0]?.population}</h1>
+          <h1>Actividades: </h1>
+          <div />
+
+          <div className="div1">
+            {countryDetail[0].activities?.length > 0 ? (
+              countryDetail[0].activities.map((a) => (
+                <div className="div2">
+                  <h3 className="data4">{a.name}</h3>
+                  <h4 className="data3">Difficulty: {a.difficulty}</h4>
+                  <h4 className="data3">Duration: {a.duration}</h4>
+                  <h4 className="data3">Season: {a.season}</h4>
+                </div>
+              ))
+            ) : (
+              <h5 className="data3">No activities</h5>
+            )}
+          </div>
 
           <Link to="/home">
             <button className="Home-button">Home</button>

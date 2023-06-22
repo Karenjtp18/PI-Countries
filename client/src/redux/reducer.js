@@ -1,6 +1,6 @@
 import { GET_COUNTRIES, GET_COUNTRIES_NAME, GET_DETAIL } from "./actions";
 import { POST_ACTIVITY } from "./actions";
-import { GET_ACTIVITIES } from "./actions";
+import { ACTIVITIES } from "./actions";
 import { BY_ORDER } from "./actions";
 import { BY_POPULATION } from "./actions";
 import { BY_CONTINENT } from "./actions";
@@ -12,6 +12,7 @@ const initialState = {
   detail: [],
   activities: [],
   continentFilter: [],
+  allActivities: [],
 };
 
 function reducer(state = initialState, action) {
@@ -39,13 +40,14 @@ function reducer(state = initialState, action) {
     case POST_ACTIVITY:
       return {
         ...state,
-        activities: action.payload,
+        activityCreated: action.payload,
       };
 
-    case GET_ACTIVITIES:
+    case ACTIVITIES:
       return {
         ...state,
         activities: action.payload,
+        allActivities: action.payload,
       };
 
     case BY_ORDER:
@@ -93,6 +95,22 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         countries: continentFilter,
+      };
+
+    case BY_ACTIVITY:
+      const allActivities = state.allActivities;
+
+      const activityFilter =
+        action.payload === "All"
+          ? allActivities.filter((e) => e.activities.length > 0)
+          : allActivities.filter((c) =>
+              c.activities.find(
+                (element) => element.name.toLowerCase() === action.payload
+              )
+            );
+      return {
+        ...state,
+        countries: activityFilter,
       };
 
     default:
